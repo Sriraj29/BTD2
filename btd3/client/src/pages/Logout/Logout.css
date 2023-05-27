@@ -1,0 +1,13 @@
+.Logout {
+  background-image: url('/public/images/brainbg3.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 100px;
+  display: flex;
+  height: 90vh;
+  background-image: url('/public/images/brainbg3.jpg');
+  align-items: center;
+  justify-content: center;
+}

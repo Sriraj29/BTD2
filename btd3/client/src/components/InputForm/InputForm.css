@@ -1,0 +1,110 @@
+/* .card{
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+} */
+
+.heading{
+  text-align: center;
+}
+.card label {
+  display: block;
+}
+
+.card input[type="text"],
+.card input[type="number"],
+.card input[type="file"] {
+  width: 100%;
+  padding: 7px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: poppins;  
+  margin:5px;
+}
+
+.card input[type="number"]{
+  width:100px;
+}
+
+
+.card .error {
+  color: red;
+
+}
+
+.card{
+	background-color: rgba(109, 134, 145, 0.8);
+	margin: auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+	padding: 40px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px #000000;
+	/* position: relative; */
+	/* top: 20px; */
+	/* bottom: 0;
+	left: 0;
+	right: 0; */
+	width: 500px;
+	height: 650px;
+  color: #001eff;
+  /* height: 100vh;
+  width: 100%; */
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center; */
+  /* align-items:flex-start; */
+  /* object-fit: contain; */
+
+}
+.card:before{
+  background-image: url("/public/images/brainbg3.jpg");
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	content: "";
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: -1;
+	display: block;
+}
+
+ .gen-rep{
+  display: flex;
+  text-transform: uppercase;
+  font-size: 20px;
+  border-radius: 25px;
+  padding: 10px 60px;
+  background: linear-gradient(to right,#001eff,  #01041c);
+  box-shadow: rgba(0,0,0,0.3)0px 19px 38px;
+  margin: auto;
+  outline: none;
+  cursor:pointer;
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid var(--primary);
+  transition: all 0.3s ease-out;
+  position: relative;
+  bottom: 5px;
+ }
+
+ .file{
+  display: block;
+  cursor: pointer;
+  font-size: 18px;
+ }
+/* 
+ .hero-container {
+  background: url'//public/images/brainbg1.jpg' center center/cover no-repeat;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:flex-start;
+  object-fit: contain;
+} */
+

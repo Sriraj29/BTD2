@@ -27,8 +27,10 @@ router.post("/register", async (req, res) => {
 
     const { email, password, cpassword } = req.body;
 
+    console.log("body",req);
+
     if (!email || !password || !cpassword) {
-        res.status(422).json({ error: "fill all the details" })
+      return  res.status(422).json({ error: "fill all the details" })
     }
 
     try {
@@ -36,9 +38,9 @@ router.post("/register", async (req, res) => {
         const preuser = await userdb.findOne({ email: email });
 
         if (preuser) {
-            res.status(422).json({ error: "This Email is Already Exist" })
+            return res.status(422).json({ error: "This Email is Already Exist" })
         } else if (password !== cpassword) {
-            res.status(422).json({ error: "Password and Confirm Password Not Match" })
+            return  res.status(422).json({ error: "Password and Confirm Password Not Match" })
         } else {
             const finalUser = new userdb({
                 email, password, cpassword
@@ -49,7 +51,7 @@ router.post("/register", async (req, res) => {
             const storeData = await finalUser.save();
 
             // console.log(storeData);
-            res.status(201).json({ status: 201, storeData })
+            return  res.status(201).json({ status: 201, storeData })
         }
 
     } catch (error) {
@@ -65,7 +67,7 @@ router.post("/register", async (req, res) => {
 // user Login
 
 router.post("/login", async (req, res) => {
-    console.log(req.body);
+    console.log("body",req.body);
 
     const { email, password } = req.body;
 
@@ -75,13 +77,13 @@ router.post("/login", async (req, res) => {
 
     try {
        const userValid = await userdb.findOne({email:email});
-
+console.log(password,"password============",userValid.password);
         if(userValid){
 
             const isMatch = await bcrypt.compare(password,userValid.password);
-
+console.log("isMatch=====",isMatch);
             if(!isMatch){
-                res.status(422).json({ error: "invalid details"})
+               return res.status(422).json({ error: "invalid details"})
             }else{
 
                 // token generate
@@ -194,10 +196,10 @@ router.post("/sendpasswordlink",async(req,res)=>{
 // verify user for forgot password time
 router.get("/forgotpassword/:id/:token",async(req,res)=>{
     const {id,token} = req.params;
-
+    console.log("vzalid ");
     try {
         const validuser = await userdb.findOne({_id:id,verifytoken:token});
-        
+        console.log("vzalid ",validuser);
         const verifyToken = jwt.verify(token,keysecret);
 
         console.log(verifyToken)
@@ -220,18 +222,20 @@ router.post("/:id/:token",async(req,res)=>{
     const {id,token} = req.params;
 
     const {password} = req.body;
-
+console.log("heree");
     try {
         const validuser = await userdb.findOne({_id:id,verifytoken:token});
         
         const verifyToken = jwt.verify(token,keysecret);
-
+        console.log(verifyToken,"validuser",validuser);
+        console.log("nn n------------",validuser && verifyToken._id);
         if(validuser && verifyToken._id){
-            const newpassword = await bcrypt.hash(password,12);
+         
+            const newpassword = await bcrypt.hash(password, 12);
 
             const setnewuserpass = await userdb.findByIdAndUpdate({_id:id},{password:newpassword});
 
-            setnewuserpass.save();
+            // setnewuserpass.save();
             res.status(201).json({status:201,setnewuserpass})
 
         }else{

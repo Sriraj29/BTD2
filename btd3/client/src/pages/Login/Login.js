@@ -18,6 +18,8 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [forgotpass, setForgotpass] = useState("");
+
+  const [errorMessage, setError] = useState("");
   //   const navigate = useNavigate();
   // const loginBackend = async () => {
   //   await fetch("http://localhost:3001/api/login", {
@@ -51,20 +53,22 @@ function Login() {
   //     );
 
   // }
-
+  const navigate = useNavigate();
 
   const handleSignup = () => {
     setShowSignup(true);
   };
   if (showSignup) {
-    return <Signup />;
+    navigate("/signup");
+    // return <Signup />;
   }
 
   const handleForgotPassword = () => {
     setForgotpass(true);
   };
   if (forgotpass) {
-    return <PasswordReset />;
+    navigate("/password-reset");
+    // return <ForgotPassword />;
   }
 
   var loggedUser = {
@@ -77,9 +81,9 @@ function Login() {
     
   
     const handleLogin = async () => {
-      const navigate = useNavigate();
-      try {
-        const response = await fetch("/login", {
+
+      // try {
+        fetch("/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -88,19 +92,31 @@ function Login() {
             email,
             password
           })
-        });
-  
-        if (response.ok) {
+        }).then(async response => {
           const data = await response.json();
-          // Handle the data or update the state accordingly
-          navigate("/login");
-        } else {
-          throw new Error("Login failed");
-        }
-      } catch (error) {
-        console.error(error);
-        // Handle the error
-      }
+          if(response.status == 201) {
+            sessionStorage.setItem('btd-token', data.result.token);
+            navigate("/home");
+          } else {
+                setError(data.error)
+                throw new Error("Login failed");
+              }
+        })
+
+
+      //   if (response.ok) {
+      //     const data = await response.json();
+      //     // Handle the data or update the state accordingly
+      //     sessionStorage.setItem('btd-token', data.result.token);
+      //     navigate("/home");
+      //   } else {
+      //     setError(data.error)
+      //     throw new Error("Login failed");
+      //   }
+      // } catch (error) {
+      //   console.error(error);
+      //   // Handle the error
+      // }
     };
 
 
@@ -144,6 +160,10 @@ function Login() {
               <button className="submit" type="button" onClick={handleLogin}>
                 LOGIN
               </button>
+
+              <p style={{color: "red",
+    textAlign: "center",
+    textTransform: "uppercase"}}>{errorMessage}</p>
             </div>
             <div className="oops">
               {/* <Box

@@ -1,10 +1,11 @@
 import React,{ useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 const PasswordReset = () => {
-
+  const navigate = useNavigate();
   const[email,setEmail]=useState("");
   const[message,setMessage]=useState("");
 
@@ -25,7 +26,7 @@ const PasswordReset = () => {
       });
     }
     else{
-    const res =await fetch("/reset-password",{
+    const res =await fetch("/sendpasswordlink",{
       method:'POST',
       headers:{
         "Content-Type":"application/json"

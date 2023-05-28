@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import "../page.css";
 import PWDRequisite from "../../components/PWDRequisite";
 import { useNavigate } from "react-router-dom";
+import { textAlign } from "@mui/system";
+import { textFieldClasses } from "@mui/material";
 
 const Signup = () => {
 
@@ -11,6 +13,10 @@ const Signup = () => {
   const [cpassword, setCPassword] = useState("");
 
   // const navigation = useNavigate();
+  const navigate = useNavigate();
+  const [errorMessage, setError] = useState("");
+
+
 
 
   var loggedUser = {
@@ -52,27 +58,10 @@ const Signup = () => {
 
   const handleSignUp = async () => {
 
-
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify({
-      email: email,
-      password: password,
-    });
-
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-
-    const handleSignup = async () => {
-      const navigate = useNavigate();
+console.log("signup");
+ 
       try {
-        const response = await fetch("/signup", {
+        const response = await fetch("/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -83,12 +72,14 @@ const Signup = () => {
             cpassword
           })
         });
-  
+        const data = await response.json();
+          
         if (response.ok) {
-          const data = await response.json();
-          // Handle the data or update the state accordingly
-          navigate("/signup");
+        
+          navigate("/");
         } else {
+
+          setError(data.error)
           throw new Error("Signup failed");
         }
       } catch (error) {
@@ -100,7 +91,7 @@ const Signup = () => {
 
 
 
-  };
+  
   return (
     <div className="container">
       <div className="text1">
@@ -192,9 +183,12 @@ const Signup = () => {
             <br></br>
 
             <div>
-              <button className="submit" onClick={handleSignUp}>
+              <button className="submit" type="button" onClick={handleSignUp}>
                 SIGNUP
               </button>
+              <p style={{color: "red",
+    textAlign: "center",
+    textTransform: "uppercase"}}>{errorMessage}</p>
             </div>
           </div>
         </form>

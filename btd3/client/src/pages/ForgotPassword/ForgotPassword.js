@@ -58,28 +58,30 @@ const ForgotPassword = () => {
         const res=await fetch(`/${id}/${token}`,{
           method:"POST",
           headers:{
-            "Content-type":"appication/json"
+            "Content-type":"application/json"
         },
 
       body:JSON.stringify({password})      
       });
 
-      // const data=await res.json()
 
-      // if(data.status===201){
-      //   setPassword("")
-      //   setMessage(true)
-      // }
-      // else{
-      //   toast.error("!Token Expired. Generate new Link",{
-      //   position: "top-center"
-      // })
-      // }
+      const data=await res.json()
+
+      if(data.status===201){
+        setPassword("")
+        setMessage(true)
+        history("/")
+      }
+      else{
+        toast.error("!Token Expired. Generate new Link",{
+        position: "top-center"
+      })
+      }
     }
   }
 
     useEffect(()=>{
-    userValid()
+    // userValid()
     setTimeout(()=>{
       setData(true)
     },3000)
@@ -103,7 +105,7 @@ const ForgotPassword = () => {
 
           <div className='form-input'>
             <label htmlFor="email">New Password</label>
-            <input type="password" value="password" onChange={setVal} name='password' id='password' placeholder='Enter your new password' />
+            <input type="password"  onChange={setVal} name='password' id='password' placeholder='Enter your new password' />
           </div>
 
           <button className='btn' onClick={sendPassword}>Send</button>
